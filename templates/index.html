@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PersonaMorph – Jedi Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(ellipse at center, #000010 0%, #000000 100%);
+      height: 100vh;
+      overflow: hidden;
+      color: white;
+      cursor: none;
+    }
+
+    body::before {
+      content: "";
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: url("https://www.nasa.gov/sites/default/files/thumbnails/image/stsci-h-p2001a-f-3840x2160.png") repeat;
+      background-size: cover;
+      z-index: -2;
+      opacity: 0.3;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 600px;
+      margin: 80px auto;
+      padding: 40px 30px;
+      background: rgba(0, 10, 20, 0.6);
+      border: 1px solid rgba(0, 150, 255, 0.2);
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 50px rgba(0,150,255,0.3);
+      text-align: center;
+      transform-style: preserve-3d;
+      transition: transform 0.2s ease;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #00ccff;
+      text-shadow: 0 0 10px #00ccff, 0 0 30px #007acc;
+      margin-bottom: 30px;
+    }
+
+    button {
+      font-size: 1rem;
+      padding: 12px 28px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      color: white;
+      letter-spacing: 1px;
+      background: black;
+      box-shadow: inset 0 0 20px #00f6ff, 0 0 20px #00f6ff, 0 0 60px #00f6ff;
+      transition: transform 0.3s ease, box-shadow 0.3s;
+      position: relative;
+      z-index: 1;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 40px #00f6ff, 0 0 80px #00f6ff;
+    }
+
+    #stopBtn {
+      box-shadow: inset 0 0 20px #ff3c3c, 0 0 20px #ff3c3c, 0 0 60px #ff3c3c;
+    }
+
+    #stopBtn:hover {
+      box-shadow: 0 0 40px #ff3c3c, 0 0 80px #ff3c3c;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-top: 30px;
+      color: #00ccff;
+    }
+
+    #traits {
+      margin-top: 20px;
+      padding: 20px;
+      font-family: monospace;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(0, 150, 255, 0.2);
+      border-radius: 10px;
+      min-height: 60px;
+      color: #b0eaff;
+      white-space: pre-wrap;
+    }
+
+    img#avatar {
+      margin-top: 25px;
+      border-radius: 50%;
+      width: 150px;
+      border: 4px solid rgba(0,150,255,0.4);
+      box-shadow: 0 0 20px rgba(0,150,255,0.6);
+      transition: transform 0.5s ease;
+    }
+
+    img#avatar:hover {
+      transform: scale(1.1) rotate(2deg);
+    }
+
+    .flash {
+      animation: flashlight 0.5s ease;
+    }
+
+    @keyframes flashlight {
+      from { background-color: rgba(0,255,255,0.3); }
+      to { background-color: transparent; }
+    }
+
+    .crawl {
+      position: fixed;
+      top: 100%;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      overflow: hidden;
+      perspective: 400px;
+      color: yellow;
+      font-size: 2em;
+      text-align: center;
+      font-weight: bold;
+      display: none;
+    }
+
+    .crawl-content {
+      animation: crawl 30s linear forwards;
+      transform-origin: bottom center;
+    }
+
+    @keyframes crawl {
+      0% { transform: rotateX(20deg) translateZ(0) translateY(100%); }
+      100% { transform: rotateX(25deg) translateZ(-300px) translateY(-300%); }
+    }
+
+    .cursor-ls {
+      width: 20px; height: 20px;
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, #00f6ff 10%, transparent 70%);
+      pointer-events: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-ls" id="cursor"></div>
+
+  <div class="crawl" id="crawl">
+    <div class="crawl-content">
+      <p>In a galaxy not so far away...</p>
+      <p><strong>PersonaMorph</strong> awakens to train the next generation of interview Jedi.</p>
+      <p>With AI-guided insight, your voice reveals your path.</p>
+      <p>May your confidence be strong, and your clarity sharper than a saber.</p>
+      <p>The Force will guide your feedback...</p>
+    </div>
+  </div>
+
+  <div class="container" id="card">
+    <h1>🎙 PersonaMorp<span id="egg">h</span></h1>
+
+    <button id="recordBtn">Start Recording</button>
+    <button id="stopBtn" disabled>Stop</button>
+
+    <h2>Result</h2>
+    <div id="traits">Waiting for input...</div>
+    <img id="avatar" src="" alt="Avatar" />
+  </div>
+
+  <audio id="saber" src="https://cdn.pixabay.com/download/audio/2022/03/28/audio_7a648f7c3f.mp3?filename=lightsaber-on-138151.mp3" preload="auto"></audio>
+
+  <script>
+   let egg = document.getElementById("egg");
+
+egg.addEventListener('click', () => {
+  const audio = document.createElement('audio');
+  audio.src = "templates\sound.mp3"; // Replace with actual path
+  audio.autoplay = true;
+// Optional: keep it hidden from UI
+  document.body.appendChild(audio);
+  console.log("here");
+});
+
+    let mediaRecorder;
+    let audioChunks = [];
+
+    const recordBtn = document.getElementById("recordBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const traitsDiv = document.getElementById("traits");
+    const avatar = document.getElementById("avatar");
+
+    recordBtn.onclick = async () => {
+      triggerSaberFlash();
+      crawl.style.display = 'block';
+      setTimeout(() => crawl.style.display = 'none', 31000);
+
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+
+      mediaRecorder.ondataavailable = (e) => {
+        audioChunks.push(e.data);
+      };
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType });
+        const formData = new FormData();
+        formData.append("audio", audioBlob, "raw_audio.webm");
+
+        try {
+          const response = await fetch("/analyze", {
+            method: "POST",
+            body: formData,
+          });
+
+          const result = await response.json();
+          if (result.traits) {
+            const traitsText = Object.entries(result.traits)
+              .map(([key, value]) => `${key}: ${value}`)
+              .join("\n");
+            traitsDiv.textContent = traitsText;
+          } else {
+            traitsDiv.textContent = "⚠️ Error analyzing traits.";
+          }
+
+          if (result.avatar_url) {
+            avatar.src = result.avatar_url;
+          }
+        } catch (error) {
+          traitsDiv.textContent = "❌ Failed to analyze audio.";
+        }
+      };
+
+      mediaRecorder.start();
+      recordBtn.disabled = true;
+      stopBtn.disabled = false;
+    };
+
+    stopBtn.onclick = () => {
+      mediaRecorder.stop();
+      recordBtn.disabled = false;
+      stopBtn.disabled = true;
+      document.getElementById('saber').pause();
+    };
+
+    // 3D Tilt Effect
+    const card = document.getElementById('card');
+    document.addEventListener('mousemove', (e) => {
+      const { clientX: x, clientY: y } = e;
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const rotateX = -(y - centerY) / 30;
+      const rotateY = (x - centerX) / 30;
+      card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    // Flash + Sound
+    function triggerSaberFlash() {
+      const audio = document.getElementById('saber');
+      if (audio) {
+        audio.currentTime = 0;
+        audio.volume = 1;
+        audio.play().catch(e => console.warn("⚠️ Audio blocked:", e));
+      }
+      document.body.classList.add('flash');
+      setTimeout(() => document.body.classList.remove('flash'), 300);
+    }
+
+    // Cursor trail
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = `${e.clientX - 10}px`;
+      cursor.style.top = `${e.clientY - 10}px`;
+    });
+
+    // Easter egg J
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'j') {
+        triggerSaberFlash();
+      }
+    });
+  </script>
+</body>
+</html>
