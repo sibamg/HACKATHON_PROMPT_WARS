@@ -1,0 +1,19 @@
+MODEL1(for recognizing emotion and gender):
+https://colab.research.google.com/drive/1wWRnWh8naLDlPZAhHQy_EfGG3hmXazm9?usp=sharing
+
+MODEL2(for identification of personality):
+https://github.com/Anirudh-SK2808/PERSONA
+
+PROBLEM STATEMENT:
+
+       When preparing for interviews we have to practice speaking so as to control our tone and be confident in front of the interviewer, we also need to show them a positive personality
+This is where our application persona_morph comes in ,it gets users voice from audio and is able to tell their personality, emotion ,intensity ,confidence so that users can improve 
+their speaking tone.
+
+The models were trained on google collab:
+They are trained on a variety of datasets including the ravdess datasets which includes the voices of sevral actors and also their file name has labels inlucing emotion,intensity,
+gender etc.
+We first preprocess the audio files to extract mfcc
+and run a cnn,
+       the cnn uses the waveform of the audio and the label encoder maps the numerical output to the labels(textual) - emotion,personality,confidence
+finally we use the users audio and with the help of our models show their stats
