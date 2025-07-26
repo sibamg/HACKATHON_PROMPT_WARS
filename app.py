@@ -13,7 +13,7 @@ def index():
 
 CORS(app)
 
-replicate.Client(api_token="r8_dD6WHS74H4braB2xp9LHEJC8CYossoB0TuFKU")
+
 
 
 @app.route("/analyze", methods=["POST"])
