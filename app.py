@@ -15,7 +15,7 @@ CORS(app)
 
 replicate.Client(api_token="r8_dD6WHS74H4braB2xp9LHEJC8CYossoB0TuFKU")
 
-os.environ["REPLICATE_API_TOKEN"]="r8_dD6WHS74H4braB2xp9LHEJC8CYossoB0TuFKU"
+
 @app.route("/analyze", methods=["POST"])
 def analyze():
     file = request.files['audio']
